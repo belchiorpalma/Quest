@@ -1,7 +1,8 @@
-jQuery-File-Upload-for-java
+Quest Dashboard
 ===========================
 
-Used klaalo / jQuery-File-Upload-Java and modified  (https://github.com/klaalo/jQuery-File-Upload-Java)
+- Dashboard
+- Report
+- Import Data into MySQL Database with Rich Internet Application
 
 
-you need to create a folder named "imgs" in WebContent folder
