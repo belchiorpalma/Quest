@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>INSPINIA | Main view</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+    
+     <link href="css/plugins/chartist/chartist.min.css" rel="stylesheet">
+
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <!-- date picker -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <style>
+		.ct-legend {
+    position: relative;
+    z-index: 10;
+
+    li {
+        position: relative;
+        padding-left: 23px;
+        margin-bottom: 3px;
+    }
+
+    li:before {
+        width: 12px;
+        height: 12px;
+        position: absolute;
+        left: 0;
+        content: '';
+        border: 3px solid transparent;
+        border-radius: 2px;
+    }
+
+    li.inactive:before {
+        background: transparent;
+    }
+
+    &.ct-legend-inside {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    @for $i from 0 to length($ct-series-colors) {
+        .ct-series-#{$i}:before {
+            background-color: nth($ct-series-colors, $i + 1);
+            border-color: nth($ct-series-colors, $i + 1);
+        	}
+		}
+	}
+	
+	.ct-tooltip {
+    position: absolute;
+    display: inline-block;
+    min-width: 5em;
+    padding: 8px 10px;
+    background: #383838;
+    color: #fff;
+    text-align: center;
+    pointer-events: none;
+    z-index: 100;
+    transition: opacity .2s linear;
+
+    // Arrow
+    &:before {
+        position: absolute;
+        bottom: -14px;
+        left: 50%;
+        border: solid transparent;
+        content: ' ';
+        height: 0;
+        width: 0;
+        pointer-events: none;
+        border-color: rgba(251, 249, 228, 0);
+        border-top-color: #383838;
+        border-width: 7px;
+        margin-left: -8px;
+    }
+
+    &.hide {
+        display: block;
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+	</style>
+
+</head>
+
+<body>
+
+<div id="wrapper">
+
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav metismenu" id="side-menu">
+                <li class="nav-header">
+                <!--
+                    <div class="dropdown profile-element">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">David Williams</strong>
+                             </span> <span class="text-muted text-xs block">Art Director <b class="caret"></b></span> </span> </a>
+                            <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                                <li><a href="#">Logout</a></li>
+                            </ul>
+                    </div>
+                    -->
+                    <div class="logo-element">
+                        QI+
+                    </div>
+                </li>
+                <li class="active">
+                    <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">Relatórios</span></a>
+                </li>
+                <li>
+                    <a href="importar.html"><i class="fa fa-th-large"></i> <span class="nav-label">Importar Arquivos</span></a>
+                </li>
+                <li>
+                    <a href="minor.html"><i class="fa fa-th-large"></i> <span class="nav-label">Gerar Arquivos Enriquecidos</span></a>
+                </li>
+                <li>
+                    <a href="minor.html"><i class="fa fa-th-large"></i> <span class="nav-label">Chassi Específico</span></a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+
+    <div id="page-wrapper" class="gray-bg">
+        <div class="row border-bottom">
+            <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+                    <form role="search" class="navbar-form-custom" method="post" action="#">
+                        <div class="form-group">
+                            <input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search">
+                        </div>
+                    </form>
+                </div>
+                <ul class="nav navbar-top-links navbar-right">
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-sign-out"></i> Log out
+                        </a>
+                    </li>
+                </ul>
+
+            </nav>
+        </div>
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="text-center m-t-lg">
+                        <h1>
+                            Welcome in INSPINIA Static SeedProject
+                        </h1>
+                        <small>
+                            It is an application skeleton for a typical web app. You can use it to quickly bootstrap your webapp projects and dev environment for these projects.
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <!-- filter -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="filter">
+                      <ul>
+                        <li><fieldset><span>de</span>
+                        	<label class="user">
+                        		<input type="text" id="ini" name="ini" class="inputText cor9" placeholder="dd/mm/aaaa" title="Insira a Data Inicial"> 
+                            </label> 
+                            <span>até</span>
+                            <label class="pass"> 
+                            	<input type="text" id="fim" name="fim" class="inputText cor9" placeholder="dd/mm/aaaa" title="Insira a Data Final"> 
+                            </label> 
+                            <label class="user">
+                            	<select id="segmento" name="segmento" class="inputText cor9" title="Selecione um Segmento">
+                                	<option value="volvo">Volvo</option>
+                                </select>
+                            </label>
+                            <input type="submit" class="buttonSubmit cor27" value="Ok" onClick="dashboard();"> </fieldset>
+                          </li>
+                        <li><a>marca</a></li>
+                        <li><a>aréa operacional</a></li>
+                        <li><a>baixar clientes</a></li>
+                        <li><a>PDF</a></li>
+                      </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- widgets -->
+            <div class="row">
+            	<div class="col-sm-4">
+                	<div class="widget lazur-bg p-lg text-center">
+                    	<div class="m-b-md">
+                        	<h3 class="font-bold no-margins text-left">
+                            Chassis
+                        	</h3>
+                            <i class="fa fa-car fa-4x"></i>
+                            <h1 class="m-xs" id="countChassi">160</h1>
+                            <h3 class="font-bold no-margins">
+                               Quantidade de chassis
+                            </h3>
+                            <small>no período <span id="periodoIni">XX</span> a <span id="periodoFim">XX</span>.</small>
+                        </div>
+                    </div>
+                </div>
+               <div class="col-sm-4">
+                	<div class="widget blue-bg p-lg text-center">
+                    	<div class="m-b-md">
+                        	<h3 class="font-bold no-margins text-left">
+                            Clientes
+                        	</h3>
+                            <i class="fa fa-users fa-4x"></i>
+                            <h1 class="m-xs">100</h1>
+                            <h3 class="font-bold no-margins">
+                                1,6 chassis emplacados
+                            </h3>
+                            <small>por cliente.</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                	<div class="widget yellow-bg p-lg text-center">
+                    	<div class="m-b-md">
+                        	<h3 class="font-bold no-margins text-left">
+                            Perfil do Cliente
+                        	</h3>
+                            
+                        </div>
+                     <!-- graph -->
+                     
+                            <div class="m-b-md">
+                                
+                                <div class="text-center">
+                                    <div id="sparkline6">
+                                    	
+                                    </div>
+                                </div>
+                            </div>
+                       
+                     <!--//graph -->   
+                    </div>
+                </div>
+                
+            </div>
+            <!--// widgets -->
+            
+            <div class="row">
+                <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Chassis e Clientes <small>por Montadora.</small></h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="fa fa-wrench"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user">
+                                <li><a href="#">Config option 1</a>
+                                </li>
+                                <li><a href="#">Config option 2</a>
+                                </li>
+                            </ul>
+                            <a class="close-link">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                            <div class="flot-chart">
+                                <div class="flot-chart-content" id="flot-bar-chart"></div>
+                            </div>
+                    </div>
+                </div>
+                
+            	</div>
+            </div>
+            
+            
+            <!-- other graphics -->
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Distribuição por SubSegmento dos Chassis Enriquecidos</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="#">Config option 1</a>
+                                    </li>
+                                    <li><a href="#">Config option 2</a>
+                                    </li>
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="flot-chart">
+                                <div class="flot-chart-pie-content" id="flot-pie-chart"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Distribuição por Montadora dos Chassis Enriquecidos</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="#">Config option 1</a>
+                                    </li>
+                                    <li><a href="#">Config option 2</a>
+                                    </li>
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="flot-chart">
+                                <div class="flot-chart-pie-content" id="flot-pie-chart2"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+		
+            
+            
+            <!-- // other -->
+            <!-- horizontal bars -->
+            <div class="row">
+            	<div class="col-lg-6">
+                	<div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Ranking Municípios dos Chassis Enriquecidos </h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="#">Config option 1</a>
+                                    </li>
+                                    <li><a href="#">Config option 2</a>
+                                    </li>
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                        	<div class="flot-chart">
+                                <div id="ct-chart4" class="ct-perfect-fourth"></div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                	<div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Ranking dos Modelos Chassis Enriquecidos </h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="#">Config option 1</a>
+                                    </li>
+                                    <li><a href="#">Config option 2</a>
+                                    </li>
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                        	<div class="flot-chart">
+                                <div id="ct-chart5" class="ct-perfect-fourth"></div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--// horizontal bars -->
+            <!-- table -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Chassis e Clientes por Montadora </h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="#">Config option 1</a>
+                                    </li>
+                                    <li><a href="#">Config option 2</a>
+                                    </li>
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row">
+                                <div class="col-sm-5 m-b-xs"><select class="input-sm form-control input-s-sm inline">
+                                    <option value="0">Option 1</option>
+                                    <option value="1">Option 2</option>
+                                    <option value="2">Option 3</option>
+                                    <option value="3">Option 4</option>
+                                </select>
+                                </div>
+                                <div class="col-sm-4 m-b-xs">
+                                    <div data-toggle="buttons" class="btn-group">
+                                        <label class="btn btn-sm btn-white"> <input type="radio" id="option1" name="options"> Day </label>
+                                        <label class="btn btn-sm btn-white active"> <input type="radio" id="option2" name="options"> Week </label>
+                                        <label class="btn btn-sm btn-white"> <input type="radio" id="option3" name="options"> Month </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="input-group"><input type="text" placeholder="Search" class="input-sm form-control"> <span class="input-group-btn">
+                                        <button type="button" class="btn btn-sm btn-primary"> Go!</button> </span></div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+
+                                        <th></th>
+                                        <th>Project </th>
+                                        <th>Completed </th>
+                                        <th>Task</th>
+                                        <th>Date</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td><input type="checkbox"  checked class="i-checks" name="input[]"></td>
+                                        <td>Project<small>This is example of project</small></td>
+                                        <td><span class="pie">0.52/1.561</span></td>
+                                        <td>20%</td>
+                                        <td>Jul 14, 2013</td>
+                                        <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox" class="i-checks" name="input[]"></td>
+                                        <td>Alpha project</td>
+                                        <td><span class="pie">6,9</span></td>
+                                        <td>40%</td>
+                                        <td>Jul 16, 2013</td>
+                                        <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox" class="i-checks" name="input[]"></td>
+                                        <td>Betha project</td>
+                                        <td><span class="pie">3,1</span></td>
+                                        <td>75%</td>
+                                        <td>Jul 18, 2013</td>
+                                        <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox" class="i-checks" name="input[]"></td>
+                                        <td>Gamma project</td>
+                                        <td><span class="pie">4,9</span></td>
+                                        <td>18%</td>
+                                        <td>Jul 22, 2013</td>
+                                        <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <!--// table -->
+        </div>
+        <div class="footer">
+            <div class="pull-right">
+                10GB of <strong>250GB</strong> Free.
+            </div>
+            <div>
+                <strong>Copyright</strong> Example Company &copy; 2014-2015
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- ITFOX scripts -->
+<script src="js/default.js"></script>
+
+<!-- Mainly scripts -->
+<script src="js/jquery-2.1.1.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<!-- datepicker -->
+ <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+<!-- Chartist -->
+ <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+ <!--
+ <script src="js/plugins/chartist/chartist.min.js"></script> -->
+ <script src="js/plugins/chartist/chartist-plugin-legend.js"></script>
+ <script src="js/plugins/chartist/chartist-plugin-pointlabels.js"></script>
+ <script src="js/plugins/chartist/chartist-plugin-tooltip.js"></script>
+ <!-- Sparkline -->
+ <script src="js/plugins/sparkline/jquery.sparkline.min.js"></script>
+ 
+ <!-- Peity -->
+<script src="js/plugins/peity/jquery.peity.min.js"></script>
+<script src="js/demo/peity-demo.js"></script>
+
+
+<!-- Flot -->
+<script src="js/plugins/flot/jquery.flot.js"></script>
+<script src="js/plugins/flot/jquery.flot.tooltip.min.js"></script>
+<script src="js/plugins/flot/jquery.flot.resize.js"></script>
+<script src="js/plugins/flot/jquery.flot.pie.js"></script>
+<script src="js/plugins/flot/jquery.flot.time.js"></script>
+
+
+<!-- Custom and plugin javascript -->
+<script src="js/inspinia.js"></script>
+<script src="js/plugins/pace/pace.js"></script>
+
+<!-- Flot demo data -->
+<script src="js/demo/flot-demo.js"></script>
+
+ <script>
+        $(document).ready(function() {
+
+            var sparklineCharts = function(){
+                
+                 $("#sparkline6").sparkline([5, 3], {
+                     type: 'pie',
+                     height: '111',
+                     sliceColors: ['#f0831d', '#F5F5F5']
+                 });
+
+                
+            };
+
+            var sparkResize;
+
+            $(window).resize(function(e) {
+                clearTimeout(sparkResize);
+                sparkResize = setTimeout(sparklineCharts, 500);
+            });
+
+            sparklineCharts();
+			// formatando o date picker for inicial date 
+			 $( "#ini" ).datepicker({
+				  changeMonth: true,
+				  changeYear: true
+				});
+			 $( "#ini" ).datepicker( "option", "dateFormat", "dd/mm/yy" );	
+			 
+			 $( "#fim" ).datepicker({
+				  changeMonth: true,
+				  changeYear: true
+				});
+			$( "#fim" ).datepicker( "option", "dateFormat", "dd/mm/yy" );	
+			// exibindo os segmentos
+			selectSeg();
+        });
+		function dashboard(){
+			countChassi();
+			plotPieDistSeg();
+			plotPieDistMarca();
+			plotHorizontalBarRankMunic();
+			plotHorizontalBarRankModel();
+			plotVerticalBar();
+		}
+		function countChassi(){
+		var url = "DashboardServlet?countChassi=true&ini="+$('#ini').val()+"&fim="+$('#fim').val()+"&seg="+$('#segmento').val();
+		//console.log(url);
+				$.getJSON(url, function (result) {
+					if (result && result.length) {
+						var items = [];
+						var periodoIni = [];
+						var periodoFim = [];
+						  $.each( result, function( key, val ) {
+							  items.push(val.countChassi);
+							  periodoIni.push(val.ini);
+							  periodoFim.push(val.fim);
+						  });
+						  $("#countChassi").html(items);
+						  $("#periodoIni").html(periodoIni);
+						  $("#periodoFim").html(periodoFim);
+					}
+				});
+		}
+		//--> function plot Pie Distribution by Segment
+		function plotPieDistSeg(){
+			
+				var url = "DashboardServlet?distSeg=true&ini="+$('#ini').val()+"&fim="+$('#fim').val()+"&seg="+$('#segmento').val();
+		
+				$.getJSON(url, function (data) {
+					if (data && data.length) {
+						var plotObj = $.plot($("#flot-pie-chart"), data, {
+							series: {
+								pie: {
+									show: true,
+									label: {
+										show:true,
+										radius:1,
+										formatter: labelFormatter,
+										threshold: 0.1,
+										background: {
+										  opacity: 1,
+										  color: 'transparent'
+										}
+									}
+									
+									/*
+									radius: 1,
+									label: {
+										show: true,
+										radius: 2/3,
+										formatter: labelFormatter,
+										threshold: 0.1, 
+										background: {
+										  opacity: 0.5,
+										  color: '#000'
+										}
+									}*/
+								}
+							},
+							legend: {
+								show: false
+							
+							},
+							grid: {
+								hoverable: true
+							},
+							tooltip: true,
+							tooltipOpts: {
+								content: "%p.0%, %s, n=%n", // show percentages, rounding to 2 decimal places
+								shifts: {
+									x: 20,
+									y: 0
+								},
+								defaultTheme: false
+							}
+						});
+						  
+						
+					}
+				});
+				
+		}
+		//<-- function plot Pie Distribution by Segment
+		//--> function plot Pie Distribution by Marca
+		function plotPieDistMarca(){
+			
+				var url = "DashboardServlet?distMarca=true&ini="+$('#ini').val()+"&fim="+$('#fim').val()+"&seg="+$('#segmento').val();
+		
+				$.getJSON(url, function (data) {
+					if (data && data.length) {
+						var plotObj = $.plot($("#flot-pie-chart2"), data, {
+							series: {
+								pie: {
+									show: true
+								}
+							},
+							legend: {
+								show: false
+							
+							},
+							grid: {
+								hoverable: true
+							},
+							tooltip: true,
+							tooltipOpts: {
+								content: "%p.0%, %s, n=%n", // show percentages, rounding to 2 decimal places
+								shifts: {
+									x: 20,
+									y: 0
+								},
+								defaultTheme: false
+							}
+						});
+						  
+						
+					}
+				});
+				
+		}
+		//<-- function plot Pie Distribution by Marca
+		//--> function plot Horizontal Bar Ranking by City
+		function plotHorizontalBarRankMunic(){
+			
+				var url = "DashboardServlet?rankMunic=true&ini="+$('#ini').val()+"&fim="+$('#fim').val()+"&seg="+$('#segmento').val();
+				var seriesLabel=[];
+				var seriesData=[];
+				
+				$.getJSON(url, function (data) {
+					if (data && data.length) {
+						
+						$.each( data, function( key, val ) {
+							seriesLabel.push(val.label);
+							seriesData.push(val.data);
+						});
+						
+						var chart = new Chartist.Bar('#ct-chart4', {
+							labels: seriesLabel,
+							series: [seriesData]
+							}, {
+							seriesBarDistance: 10,
+							reverseData: true,
+							horizontalBars: true,
+							axisX: {
+							labelInterpolationFnc: function(value, index) {
+							  return index % 2 === 0 ? value : null;
+							  }
+							},
+							axisY: {
+								offset: 140
+							},
+							plugins: [
+									Chartist.plugins.tooltip(
+										/*{
+											valueTransform: function () {
+											return (this / 1000) + 'k';
+											}
+										}*/
+									)
+								]
+						});
+						chartPoint(chart);	  
+						
+					}// end if
+				});
+				
+		}
+		//<-- function plot Horizontal Bar Ranking by City
+		
+		//--> function plot Horizontal Bar Ranking by Model
+		function plotHorizontalBarRankModel(){
+			
+				var url = "DashboardServlet?rankModel=true&ini="+$('#ini').val()+"&fim="+$('#fim').val()+"&seg="+$('#segmento').val();
+				var seriesLabel=[];
+				var seriesData=[];
+				
+				$.getJSON(url, function (data) {
+					if (data && data.length) {
+						
+						$.each( data, function( key, val ) {
+							seriesLabel.push(val.label);
+							seriesData.push(val.data);
+						});
+						
+						//require('chartist-plugin-legend');
+						
+						var chart = new Chartist.Bar('#ct-chart5', {
+							labels: seriesLabel,
+							series: [seriesData]
+							}, {
+								seriesBarDistance: 10,
+								reverseData: true,
+								horizontalBars: true,
+								/*axisY: {
+									offset: 70
+								},*/
+								axisX: {
+									// The offset of the chart drawing area to the border of the container
+									offset: 30,
+									// Position where labels are placed. Can be set to `start` or `end` where `start` is equivalent to left or top on vertical axis and `end` is equivalent to right or bottom on horizontal axis.
+									position: 'end',
+									// Allows you to correct label positioning on this axis by positive or negative x and y offset.
+									labelOffset: {
+									  x: 0,
+									  y: 0
+									},
+									// If labels should be shown or not
+									showLabel: true,
+									// If the axis grid should be drawn or not
+									showGrid: true,
+									// Interpolation function that allows you to intercept the value from the axis label
+									labelInterpolationFnc: Chartist.noop,
+									// This value specifies the minimum width in pixel of the scale steps
+									scaleMinSpace: 30,
+									// Use only integer values (whole numbers) for the scale steps
+									onlyInteger: false
+								},
+								// Options for Y-Axis
+							  axisY: {
+								// The offset of the chart drawing area to the border of the container
+								offset: 170,
+								// Position where labels are placed. Can be set to `start` or `end` where `start` is equivalent to left or top on vertical axis and `end` is equivalent to right or bottom on horizontal axis.
+								position: 'start',
+								// Allows you to correct label positioning on this axis by positive or negative x and y offset.
+								labelOffset: {
+								  x: 0,
+								  y: 0
+								},
+								// If labels should be shown or not
+								showLabel: true,
+								// If the axis grid should be drawn or not
+								showGrid: true,
+								// Interpolation function that allows you to intercept the value from the axis label
+								labelInterpolationFnc: Chartist.noop,
+								// This value specifies the minimum height in pixel of the scale steps
+								scaleMinSpace: 20,
+								// Use only integer values (whole numbers) for the scale steps
+								onlyInteger: false
+							  },
+							  stackBars: true,
+							  stackMode: 'accumulate',
+							  
+							  plugins: [
+									Chartist.plugins.tooltip(
+										/*{
+											valueTransform: function () {
+											return (this / 1000) + 'k';
+											}
+										}*/
+									)
+								]
+							  
+								
+							}
+							/*
+							{
+								plugins: [
+								Chartist.plugins.legend()
+								]
+						  }, 
+						  {
+							  plugins: [
+								Chartist.plugins.ctPointLabels({
+								  textAnchor: 'middle',
+								  labelInterpolationFnc: function(value) {return '$' + value.toFixed(2)}
+								})
+							  ]
+							}
+						*/);
+						<!-- adjust chart point
+						chartPoint(chart);	  
+						
+					}// end if
+				});
+				
+		}
+		//<-- function plot Horizontal Bar Ranking by Model
+		
+		//--> function plot Vertical Bar 
+		function plotVerticalBar(){
+			
+				var url = "DashboardServlet?rankModel=true&ini="+$('#ini').val()+"&fim="+$('#fim').val()+"&seg="+$('#segmento').val();
+				var seriesLabel=[];
+				var seriesData=[];
+				
+				$.getJSON(url, function (data) {
+					if (data && data.length) {
+						
+						$.each( data, function( key, val ) {
+							seriesLabel.push(val.label);
+							seriesData.push(val.data);
+						});
+						var data1 = [
+                [gd(2012, 1, 1), 5], [gd(2012, 1, 2), 9], [gd(2012, 1, 3), 3], [gd(2012, 1, 4), 1],
+                [gd(2012, 1, 5), 15], [gd(2012, 1, 6), 4], [gd(2012, 1, 7), 1], [gd(2012, 1, 8), 3],
+                [gd(2012, 1, 9), 7], [gd(2012, 1, 10), 8], [gd(2012, 1, 11), 9], [gd(2012, 1, 12), 6],
+                [gd(2012, 1, 13), 4], [gd(2012, 1, 14), 5], [gd(2012, 1, 15), 11], [gd(2012, 1, 16), 8],
+                [gd(2012, 1, 17), 8], [gd(2012, 1, 18), 11], [gd(2012, 1, 19), 11], [gd(2012, 1, 20), 6],
+                [gd(2012, 1, 21), 6], [gd(2012, 1, 22), 8], [gd(2012, 1, 23), 11], [gd(2012, 1, 24), 13],
+                [gd(2012, 1, 25), 7], [gd(2012, 1, 26), 9], [gd(2012, 1, 27), 9], [gd(2012, 1, 28), 8],
+                [gd(2012, 1, 29), 5], [gd(2012, 1, 30), 8], [gd(2012, 1, 31), 25]
+            ];
+						
+			var data2 = [
+                [gd(2012, 1, 1), 500], [gd(2012, 1, 2), 500], [gd(2012, 1, 3), 600], [gd(2012, 1, 4), 700],
+                [gd(2012, 1, 5), 400], [gd(2012, 1, 6), 556], [gd(2012, 1, 7), 800], [gd(2012, 1, 8), 589],
+                [gd(2012, 1, 9), 367], [gd(2012, 1, 10), 976], [gd(2012, 1, 11), 689], [gd(2012, 1, 12), 700],
+                [gd(2012, 1, 13), 600], [gd(2012, 1, 14), 500], [gd(2012, 1, 15), 700], [gd(2012, 1, 16), 786],
+                [gd(2012, 1, 17), 745], [gd(2012, 1, 18), 888], [gd(2012, 1, 19), 888], [gd(2012, 1, 20), 888],
+                [gd(2012, 1, 21), 887], [gd(2012, 1, 22), 454], [gd(2012, 1, 23), 999], [gd(2012, 1, 24), 567],
+                [gd(2012, 1, 25), 986], [gd(2012, 1, 26), 666], [gd(2012, 1, 27), 888], [gd(2012, 1, 28), 900],
+                [gd(2012, 1, 29), 178], [gd(2012, 1, 30), 555], [gd(2012, 1, 31), 993]
+            ];
+			
+            var data3 = [
+                [gd(2012, 1, 1), 800], [gd(2012, 1, 2), 500], [gd(2012, 1, 3), 600], [gd(2012, 1, 4), 700],
+                [gd(2012, 1, 5), 500], [gd(2012, 1, 6), 456], [gd(2012, 1, 7), 800], [gd(2012, 1, 8), 589],
+                [gd(2012, 1, 9), 467], [gd(2012, 1, 10), 876], [gd(2012, 1, 11), 689], [gd(2012, 1, 12), 700],
+                [gd(2012, 1, 13), 500], [gd(2012, 1, 14), 600], [gd(2012, 1, 15), 700], [gd(2012, 1, 16), 786],
+                [gd(2012, 1, 17), 345], [gd(2012, 1, 18), 888], [gd(2012, 1, 19), 888], [gd(2012, 1, 20), 888],
+                [gd(2012, 1, 21), 987], [gd(2012, 1, 22), 444], [gd(2012, 1, 23), 999], [gd(2012, 1, 24), 567],
+                [gd(2012, 1, 25), 786], [gd(2012, 1, 26), 666], [gd(2012, 1, 27), 888], [gd(2012, 1, 28), 900],
+                [gd(2012, 1, 29), 178], [gd(2012, 1, 30), 555], [gd(2012, 1, 31), 993]
+            ];
+
+
+            var dataset = [
+                {
+                    label: "Number of Questions",
+                    data: data2,
+                    color: "#3BF392",
+                    bars: {
+                        show: true,
+                        align: "right",
+                        barWidth: 24 * 60 * 60 * 600,
+                        lineWidth:0
+                    }
+
+                },
+				{
+                    label: "Number of orders",
+                    data: data3,
+                    color: "#1ab394",
+                    bars: {
+                        show: true,
+                        align: "left",
+                        barWidth: 24 * 60 * 60 * 600,
+                        lineWidth:0
+                    }
+
+                }, {
+                    label: "Payments",
+                    data: data1,
+                    yaxis: 2,
+                    color: "#1C84C6",
+                    lines: {
+                        lineWidth:1,
+                            show: true,
+                            fill: true,
+                        fillColor: {
+                            colors: [{
+                                opacity: 0.2
+                            }, {
+                                opacity: 0.4
+                            }]
+                        }
+                    },
+                    splines: {
+                        show: false,
+                        tension: 0.6,
+                        lineWidth: 1,
+                        fill: 0.1
+                    },
+                }
+            ];
+
+
+            var options = {
+                xaxis: {
+                    mode: "time",
+                    tickSize: [3, "day"],
+                    tickLength: 0,
+                    axisLabel: "Date",
+                    axisLabelUseCanvas: true,
+                    axisLabelFontSizePixels: 12,
+                    axisLabelFontFamily: 'Arial',
+                    axisLabelPadding: 10,
+                    color: "#d5d5d5"
+                },
+                yaxes: [{
+                    position: "left",
+                    max: 1070,
+                    color: "#d5d5d5",
+                    axisLabelUseCanvas: true,
+                    axisLabelFontSizePixels: 12,
+                    axisLabelFontFamily: 'Arial',
+                    axisLabelPadding: 3
+                }, {
+                    position: "right",
+                    clolor: "#d5d5d5",
+                    axisLabelUseCanvas: true,
+                    axisLabelFontSizePixels: 12,
+                    axisLabelFontFamily: ' Arial',
+                    axisLabelPadding: 67
+                }
+                ],
+                legend: {
+                    noColumns: 1,
+                    labelBoxBorderColor: "#000000",
+                    position: "nw"
+                },
+                grid: {
+                    hoverable: true,
+                    borderWidth: 0
+                }
+            };
+
+            function gd(year, month, day) {
+                return new Date(year, month - 1, day).getTime();
+            }
+
+            var previousPoint = null, previousLabel = null;
+
+            $.plot($("#flot-bar-chart"), dataset, options);
+					}// end if
+				});
+				
+		}
+		//<-- function plot Vertical Bar
+		
+		//--> function select Segmento
+		function selectSeg(){
+			
+				var url = "DashboardServlet?selectSeg=true";
+				var items =[];
+				$.getJSON(url, function (data) {
+					if (data && data.length) {
+						 $.each( data, function( key, val ) {
+							  items.push("<option value=\""+val.segmento+"\">"+val.descricao+"</option>");
+							  
+						  });
+						  $("#segmento").html(items);
+						
+					}
+				});
+				
+		}
+		//<-- function select Segmento
+		
+		function labelFormatter(label, series) {
+			// series is the series object for the label
+			// show object property
+			//console.log(Object.getOwnPropertyNames(series).sort());
+			// Logging property names and values using Array.forEach
+			//Object.getOwnPropertyNames(series).forEach(function(val, idx, array) {
+			//  console.log(val + ' -> ' + series[val]);
+			//});
+			var str = "";
+				str =  series.data;
+			var res = str[0][1];
+			
+			
+			return "<div style='font-size:8pt; text-align:center; padding:2px; color:"+series.color+";'>" + label + "<br/>" + res+" | "+series.percent.toFixed(0)+  "%</div>";
+			
+		}
+    </script>
+
+
+</body>
+
+</html>

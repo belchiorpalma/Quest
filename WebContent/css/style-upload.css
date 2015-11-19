@@ -1,0 +1,206 @@
+@charset 'UTF-8';
+/*
+ * jQuery File Upload Plugin CSS Example 1.0
+ * https://github.com/blueimp/jQuery-File-Upload
+ *
+ * Copyright 2012, Sebastian Tschan
+ * https://blueimp.net
+ *
+ * Licensed under the MIT license:
+ * http://www.opensource.org/licenses/MIT
+ */
+
+body{
+  padding-top: 0px;
+}
+/*
+thead{
+    background-color: lightgray;
+    color:white;
+    -moz-border-top-left-radius: 20px;
+    -webkit-border-top-left-radius: 20px;
+    border-top-left-radius: 20px;
+    -moz-border-top-right-radius:  20px;
+    -webkit-border-top-right-radius: 20px;
+    border-top-right-radius: 20px;
+    padding: 10px;
+    width:100%;
+    height: 65px;
+    display: table-caption;
+    margin: auto;
+    text-align: left;
+}*/
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.table-curved {
+   border-collapse: separate;
+   border: solid #ccc 0px;
+   border-radius: 16px;
+   border-left: 0px;
+   border-top: 0px;
+}
+.table-curved > thead:first-child > tr:first-child > th {
+    border-bottom: 0px;
+    border-top: solid #ccc 0px;
+}
+.table-curved td, .table-curved th {
+    border-left: 0px solid #ccc;
+    border-top: 0px solid #ccc;
+}
+.table-curved > :first-child{
+    background-color: lightgray;
+    color: white;
+    font-size: 16px;
+}
+.table-curved > :first-child > :first-child > :first-child {
+    border-radius: 16px 0 0 0;
+}
+.table-curved > :first-child > :first-child > :last-child {
+    border-radius: 0 16px 0 0;
+}
+.table-curved > :last-child > :last-child > :first-child {
+    border-radius: 0 0 0 16px;
+}
+.table-curved > :last-child > :last-child > :last-child {
+    border-radius: 0 0 16px 0;
+}
+
+
+thead input, thead select{
+    float:left;
+    height:30px;
+    display:block;
+    color:lightgray;
+    background-color: #fff;
+    box-shadow: none;
+    border:none;
+    padding: 5px 10px 5px 10px;
+    margin-left: 5px;
+    font-size: 14px;
+    font-weight: bold;
+}
+thead input{
+    background-image: -webkit-linear-gradient(top, #E5E5E5, #F4F4F4);
+}
+button{
+    float:left;
+    margin-right: 10px;
+}
+.btn-search{
+    color: #fff;
+    background-color: #444;
+    border-color: #333;
+}
+.size{
+   text-align: center;
+}
+/** remove style of element select */
+select {
+    /*
+   -webkit-appearance: none;
+   -moz-appearance: none;
+   appearance: none; */
+    background-color: #F07575; /* fallback color if gradients are not supported */
+    background-image: url(../img/icon-arrow.png), -webkit-linear-gradient(top, #E5E5E5, #F4F4F4); /* For Chrome and Safari */
+    background-image: url(../img/icon-arrow.png), -moz-linear-gradient(top, #E5E5E5, #F4F4F4); /* For old Fx (3.6 to 15) */
+    background-image: url(../img/icon-arrow.png), -ms-linear-gradient(top, #E5E5E5, #F4F4F4); /* For pre-releases of IE 10*/
+    background-image: url(../img/icon-arrow.png), -o-linear-gradient(top, #E5E5E5, #F4F4F4); /* For old Opera (11.1 to 12.0) */ 
+    background-image: url(../img/icon-arrow.png), linear-gradient(to bottom, #E5E5E5, #F4F4F4); /* Standard syntax; must be last */
+    background-position: center right;
+    background-repeat: no-repeat;
+    background-size: 0%;
+    border: 1px solid #AAA;
+    border-radius: 2px;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+    color: #555;
+    font-size: inherit;
+    margin: 0;
+    overflow: hidden;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+select::-ms-expand { /* for IE 11 */
+    display: none;
+}
+#keyword{
+   float:right;
+   width:250px;
+}
+/**** buttons ***/
+.btn-success{
+	color: #fff;
+	background-color: #5cb85c;
+	border-color: #4cae4c
+}
+.btn-primary{
+	color: #fff;
+	background-color: #428bca;
+	border-color: #357ebd
+}
+.btn-warning{
+	color: #fff;
+	background-color: #f0ad4e;
+	border-color: #eea236
+}
+.btn-danger{
+	background-color: #ed5565;
+	border-color: #ed5565;
+	color: #FFFFFF;
+}
+.btn-success:hover,.btn-primary:hover, .btn-warning:hover, .btn-danger:hover{
+	color: #fff;
+	background-color: #B2AFAF;
+	border:1px #000000 solid;
+	border-radius: 3px;
+}
+input[type="file"]{
+	align-items: baseline;
+	color: inherit;
+	text-align: start !important;
+	display: block;
+}
+/* do not group these rules */
+*::-webkit-input-placeholder {
+    color: white;
+}
+*:-moz-placeholder {
+    /* FF 4-18 */
+    color: white;
+}
+*::-moz-placeholder {
+    /* FF 19+ */
+    color: white;
+}
+*:-ms-input-placeholder {
+    /* IE 10+ */
+    color: white;
+}
+.form-control::-webkit-input-placeholder {
+	color:white;
+}
+.form-control:-moz-placeholder{
+	color:white;
+}
+.form-control::-moz-placeholder{
+	color:white;
+}
+.form-control:-ms-input-placeholder{
+	color:white;
+}	
+.fileStatus{
+	height: 40px;
+	width: 40px;
+	-moz-border-radius: 20px;
+	border-radius: 20px;
+	background-color: #BAC5E1;
+	display: block;
+	float: left;
+	text-align: center;
+	padding: 10px 0 0 0;
+	color:white;
+}
