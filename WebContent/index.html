@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 
     <meta charset="utf-8">
@@ -18,6 +17,31 @@
     <!-- date picker -->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <style>
+	/** widgets */
+	.widget-one{
+		background-color: #5576a0;
+		color: #ffffff;
+	}
+	.widget-two{
+		background-color: #60b6e2;
+		color: #ffffff;
+	}
+	.widget-tree{
+		background-color: #afbed0;
+		color: #ffffff;
+	}
+	/** bar colors */
+	.ct-series-a .ct-bar{
+		stroke: #60b6e2;
+	}
+	.ct-series-b .ct-bar{
+		stroke: orange;
+	}
+	.ct-series-a .ct-slice-pie,  .ct-series-a .ct-area{
+		stroke: #60b6e2;
+		fill: #60b6e2;
+	}
+	
 		.ct-legend {
     position: relative;
     z-index: 10;
@@ -198,7 +222,7 @@
             <!-- widgets -->
             <div class="row">
             	<div class="col-sm-4">
-                	<div class="widget lazur-bg p-lg text-center">
+                	<div class="widget widget-one p-lg text-center">
                     	<div class="m-b-md">
                         	<h3 class="font-bold no-margins text-left">
                             Chassis
@@ -213,7 +237,7 @@
                     </div>
                 </div>
                <div class="col-sm-4">
-                	<div class="widget blue-bg p-lg text-center">
+                	<div class="widget widget-two p-lg text-center">
                     	<div class="m-b-md">
                         	<h3 class="font-bold no-margins text-left">
                             Clientes
@@ -228,7 +252,7 @@
                     </div>
                 </div>
                 <div class="col-sm-4">
-                	<div class="widget yellow-bg p-lg text-center">
+                	<div class="widget widget-tree p-lg text-center">
                     	<div class="m-b-md">
                         	<h3 class="font-bold no-margins text-left">
                             Perfil do Cliente
@@ -580,7 +604,7 @@
                  $("#sparkline6").sparkline([5, 3], {
                      type: 'pie',
                      height: '111',
-                     sliceColors: ['#f0831d', '#F5F5F5']
+                     sliceColors: ['#5576a0', '#F5F5F5']
                  });
 
                 
@@ -942,7 +966,7 @@
                 {
                     label: "Number of Questions",
                     data: data2,
-                    color: "#3BF392",
+                    color: "#5576a0",
                     bars: {
                         show: true,
                         align: "right",
@@ -954,7 +978,7 @@
 				{
                     label: "Number of orders",
                     data: data3,
-                    color: "#1ab394",
+                    color: "#c6d3e3",
                     bars: {
                         show: true,
                         align: "left",
@@ -966,7 +990,7 @@
                     label: "Payments",
                     data: data1,
                     yaxis: 2,
-                    color: "#1C84C6",
+                    color: "#f17979",
                     lines: {
                         lineWidth:1,
                             show: true,
